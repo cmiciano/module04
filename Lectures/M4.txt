@@ -1,0 +1,73 @@
+  
+  
+  router.route('/api/employees/:id')
+    .delete(deleteEmployee)
+
+  
+   const employeeRows = props.employees.map(employee =>
+        <EmployeeRow 
+        key={employee._id} 
+        employee={employee}
+        deleteEmployee={props.deleteEmployee}/>)
+    // define style here
+
+
+
+        function onDeleteClick() {
+        props.deleteEmployee(props.employee._id)
+    }
+
+
+function EmployeeRow(props) {
+    //const employee = props.employee
+    //const style = this.props.rowStyle // property passed onto built-in react compoment
+    // need toDateString for it to work
+
+    function onDeleteClick() {
+        props.deleteEmployee(props.employee._id)
+    }
+
+    return(
+        <tr>
+            <td>{props.employee.name}</td>
+            <td>{props.employee.extension}</td>
+            <td>{props.employee.email}</td>
+            <td>{props.employee.title}</td>
+            <td>{props.employee.dateHired.toDateString()}</td> 
+            <td>{props.employee.currentlyEmployed ? 'Yes' : 'No'}</td>
+            <td><button onClick={onDeleteClick}>DELETE</button></td>
+        </tr>
+    )
+
+
+	
+}
+
+
+
+    deleteEmployee(id) {
+        fetch(`/api/employees/${id}`, { method: 'DELETE' })
+        .then(response => {
+            if (!response.ok) {
+                console.log('Failed to delete employee.')
+            } else {
+                this.loadData()
+            }
+        })
+    }
+    // passing employees to EmployeeTable via prop
+    // passing method 
+	render() { //have to have render() function within a class
+		return(   
+            <React.Fragment>
+                    <h1>Employee Management Application</h1>
+                    <EmployeeFilter />
+                    <hr /> 
+                    <EmployeeTable employees={this.state.employees} deleteEmployee={this.deleteEmployee} /> 
+                    <hr />
+                    <EmployeeAdd createEmployee={this.createEmployee} />
+            </React.Fragment>
+
+        )
+  }
+

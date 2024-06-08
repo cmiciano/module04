@@ -1,0 +1,102 @@
+//
+   
+    return( //two braces since you're specifiying in-line style, also have to use "800px" instead of just number 800
+        <table class="bordered-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Extension</th>
+                    <th>Email</th>
+                    <th>Title</th>
+                    <th>Date Hired</th>
+                    <th>Is Employed</th>
+
+                </tr>
+            </thead> 
+            <tbody>
+                {employeeRows}
+            </tbody>
+        </table>
+
+    )
+    
+
+
+
+        return(
+        <tr>
+            <td>{employee.name}</td>
+            <td>{employee.extension}</td>
+            <td>{employee.email}</td>
+            <td>{employee.title}</td>
+            <td>{employee.dateHired.toDateString()}</td> 
+            <td>{employee.currentlyEmployed ? 'Yes' : 'No'}</td>
+        </tr>
+    )
+
+
+
+  handleSubmit(e) {
+        e.preventDefault()
+        const form = document.forms.employeeAdd
+        const employee = {
+            name: form.name.value,
+            extension: form.ext.value,
+            email: form.email.value,
+            title: form.title.value,
+   
+
+        }
+        this.props.createEmployee(employee)
+        form.name.value = ''
+        form.ext.value = ''
+        form.email.value = ''
+        form.title.value = ''
+
+
+    }
+
+
+
+        createEmployee(employee) {
+        fetch('/api/employees', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(employee),
+        })
+        .then(response => response.json())
+        .then(newEmployee => {
+            newEmployee.employee.dateHired = new Date(newEmployee.employee.dateHired)
+            const newEmployees = this.state.employees.concat(newEmployee.employee)
+            this.setState({ employees: newEmployees })
+            console.log('Total count of employees:', newEmployees.length)  // modifying the state after adding to database
+
+        })
+        .catch(err => {console.log(err)} )
+
+    }
+
+
+
+
+router.route('/api/employees')
+    .get(getAllEmployees)
+    .post(createEmployee)
+
+
+
+const createEmployee = async (req, res) => {
+
+    try {
+        const employee = await Employee.create(req.body) // creates a valid employee as long as its valid
+        res.status(201).json( { employee })
+       // res.status(201).json( {msg: 'Employee added successfully'}) // response.body in postman returns  'Employee added successfully'
+        // res.send('Create a new employee') 
+    } catch (err) {
+        res.status(500).json( {msg: err})
+    }
+}
+
+
+change     entry: './src/employees.jsx',
+to

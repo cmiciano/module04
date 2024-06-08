@@ -1,0 +1,66 @@
+// libraries bundle.js
+
+npm i --save-dev react react-dom
+
+
+in each file employees.jsx EmployeeAdd.jsx EmployeeFilter.jsx EmployeeList.jsx
+add 
+
+only in in employees.jsx add import ReactDOM from 'react-dom'
+
+
+remove references to react in script tag
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+
+// in webpack.config.js
+import webpack from 'webpack'
+
+const config = {
+    entry: {
+        employees: './src/employees.jsx',
+    },
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'public'),
+
+    },
+    plugins: [],
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader', //if you see any jsx files use the babel loader
+            },
+        ]
+    },
+    optimization: {
+        splitChunks: {
+            name: 'vendor', // will not rebuild node_modules
+            chunks: 'all',
+        },
+    },
+
+}
+
+in index.html add  <script src="vendor.bundle.js"></script>
+
+
+// Using ReactDOM client to render page
+
+// if you get an error try
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import EmployeeList from './EmployeeList.jsx'
+
+const root = createRoot(document.getElementById('content'))
+root.render(
+    <React.StrictMode>
+        <EmployeeList />
+    </React.StrictMode>
+)
+
+
+

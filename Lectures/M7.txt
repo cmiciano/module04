@@ -1,0 +1,82 @@
+npm i --save-dev babel-loader @babel/preset-env 
+
+installs @babel/preset-env  and  @babel/preset-react
+
+
+ npx webpack --watch to automatically compile
+
+//.babelrc
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    
+    ]
+}
+
+
+
+
+// webpack.config.js
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const isProduction = 'production'
+
+
+const config = {
+    entry: './src/employees.jsx',
+    output: {
+        filename: 'employees.bundle.js',
+        path: path.resolve(__dirname, 'public'),
+
+    },
+    plugins: [],
+    module: {
+        rules: [
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader', //if you see any jsx files use the babel loader
+            },
+        ]
+    }
+
+}
+
+
+export default function() {
+    if (isProduction) {
+        config.mode = 'production'
+    } else {
+        config.mode = 'development'
+    }
+    return config
+}
+
+
+import EmployeeAdd from './EmployeeAdd.jsx'
+
+
+//package.json
+change
+
+  "scripts": {
+    "compile": "babel src --presets @babel/react src --out-dir public",
+    "watch": "babel src --presets @babel/react src --out-dir public --watch --verbose",
+    "dev": "nodemon app.js"
+  },
+
+to "compile": "webpack"
+
+and watch to "watch": "webpack --watch"
+
+
+npm run watch
+
+
+
+

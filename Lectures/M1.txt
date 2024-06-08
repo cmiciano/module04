@@ -1,0 +1,35 @@
+M4 Lecture 1: Module setup
+
+in module 4 npm i
+
+npm i body-parser dotenv mongoose
+
+
+
+//put bodyparser before the route middleware calls
+app.use(express.static('public'))
+app.use(bodyParser.json()) //without this middleware, wouldn't be able to decipher data being sent to node from an application
+app.use('/', routes)
+
+
+router.route('/api/employees')
+    .get(getAllEmployees)
+
+
+
+const getAllEmployees = async (req, res) => {
+
+    try {
+        //const employees = await Employee.find({ })
+        res.status(200).json( {employees, count: employees.length } ) //returns in json form
+        // res.send('Get all employees')
+
+    } catch (err) {
+        res.status(500).json( {msg : err})
+    }
+}
+
+
+
+// make sureto log in to mongodb and start the vectacorp cluster so you can actually connect
+// make sure to have both npm run watch and npm run dev in split terminal to update changes automatically

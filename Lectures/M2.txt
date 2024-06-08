@@ -1,0 +1,76 @@
+// M4 Lecture 2: Using the Get Employees API
+
+
+
+
+change employee.id to employee._id for mongodb
+// M5 and M6 and M7
+function EmployeeTable(props) {
+
+    // maps employee element in array to create 
+    // multiple employee rows
+    // creates properties "key" taking in employee.id and "employee"
+    // taking in whole element in the array {id, name, ext etc}
+    const employeeRows = props.employees.map(employee =>
+        <EmployeeRow key={employee._id} employee={employee}/>)
+    // define style here
+
+change isEmployed to currentlyEmployed
+function EmployeeRow(props) {
+    const employee = props.employee
+    //const style = this.props.rowStyle // property passed onto built-in react compoment
+    // need toDateString for it to work
+    return(
+        <tr>
+            <td>{employee.name}</td>
+            <td>{employee.extension}</td>
+            <td>{employee.email}</td>
+            <td>{employee.title}</td>
+            <td>{employee.dateHired.toDateString()}</td> 
+            <td>{employee.currentlyEmployed ? 'Yes' : 'No'}</td>
+        </tr>
+    )
+
+
+	
+}
+
+
+// change loaddata function to this
+class EmployeeList extends React.Component {
+    constructor() {
+        super()
+        this.state = { employees: [] } //using hard-coded array to initialize state
+        this.createEmployee = this.createEmployee.bind(this)
+
+    }
+
+    componentDidMount() {
+        this.loadData() //simulates asynchronous call, load employee data from state
+    }
+    
+
+    loadData() {
+
+        console.log("in load data")
+        fetch('/api/employees')
+         .then(response => response.json())
+         .then(data => {
+            console.log('Total count of employees:', data.count)
+            data.employees.forEach( employee => {
+                employee.dateHired = new Date(employee.dateHired)
+            })
+            this.setState({ employees: data.employees})
+         })
+        .catch(err => {console.log(err)})
+        /*
+        setTimeout(() => {
+            this.setState({ employees: initialEmployees })
+        }, 500 )
+        */
+    }
+
+
+
+
+

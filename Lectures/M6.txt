@@ -1,0 +1,34 @@
+ // M4 Lecture 6: Using Webpack manually
+
+ 
+ npm i --save-dev webpack webpack-cli
+
+
+ babbel currently converts one jsx to one js file 
+
+ if we want multiple javascript files, need to compile to a bundle
+
+ npx webpack --mode development --entry ./public/employees.js --output-path ./public --output-filename employees.bundle.js
+
+ npx webpack 
+ 
+ --mode development 
+ 
+ --entry ./public/employees.js
+ 
+--output-path ./public
+  
+--output-filename employees.bundle.js
+
+
+
+Create a separate file for EmployeeAdd.js then copy component 
+
+in index.html change employees.js to     <script src="employees.bundle.js">
+so you can refer to the bundled js code
+
+Rerun npm run compile to compile EmployeeAdd.jsx too
+
+npx webpack --mode production --entry ./public/employees.js --output-path ./public --output-filename employees.bundle.js
+
+

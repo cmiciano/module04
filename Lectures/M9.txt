@@ -1,0 +1,15 @@
+add     devtool: 'source-map' to webpack.config.js
+
+will generate a employees.bundle.js.map
+
+
+  In this module I learned how to integrate our code with the API functions
+we made in the previous course. We learned how to get and delete employees from the database 
+and modify the state after each action is performed. We also learned how to modularize our code by separating components
+out into multiple .jsx files and then importing those components into other .jsx files as needed. You can use webpack to 
+compile multiple .jsx files into a bundle.
+You could compile the .jsx files manually, or you can set up a config file to compile all .jsx files in a certain directory.
+We also learned how to split code into chunks whenever you only want to recompile certain files. 
+In the case where some files are too large, you can split the .jsx file into chunks where one file is 
+recompiled and watched while the other is not. Finally,
+we learned how to debug in webpack by writing out a .map file to look through.
